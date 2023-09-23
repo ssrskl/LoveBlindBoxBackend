@@ -9,7 +9,7 @@ create table love_user
     user_id      bigint(255)  not null auto_increment comment '用户ID',
     username     varchar(255) not null unique comment '用户名',
     password     varchar(255) not null comment '',
-    email        varchar(255) not null comment '',
+    email        varchar(255) not null unique comment '',
     gender       bit(1) comment '',
     status       bit(1) comment '',
     age          varchar(10) comment '',

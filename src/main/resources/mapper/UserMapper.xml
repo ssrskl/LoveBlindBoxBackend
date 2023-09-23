@@ -1,10 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.maoyan.loveblindbox.mapper.UserMapper">
-
-    <insert id="insertLoveUser">
+    <resultMap id="LoveUserMap" type="com.maoyan.loveblindbox.entity.LoveUser">
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="email" property="email"/>
+        <result column="gender" property="gender"/>
+        <result column="status" property="status"/>
+        <result column="age" property="age"/>
+        <result column="qq" property="qq"/>
+        <result column="wechat" property="wechat"/>
+        <result column="avater" property="avater"/>
+        <result column="hobby" property="hobby"/>
+        <result column="personality" property="personality"/>
+        <result column="introduction" property="introduction"/>
+    </resultMap>
+    <insert id="insertLoveUser" parameterType="com.maoyan.loveblindbox.entity.LoveUser">
+        insert into love_blindbox.love_user (username, password, email)
+        values (#{loveUser.username,jdbcType=VARCHAR}, #{loveUser.password,jdbcType=VARCHAR},
+                #{loveUser.email,jdbcType=VARCHAR});
     </insert>
 
-    <select id="selectLoveUserById" resultType="com.maoyan.loveblindbox.entity.LoveUser">
+    <select id="selectLoveUserById" resultMap="LoveUserMap">
+        select *
+        from love_blindbox.love_user
+        where user_id = #{userId,jdbcType=BIGINT};
+    </select>
+
+    <select id="selectLoveUserByEmailAndPassword" resultMap="LoveUserMap">
+        select *
+        from love_blindbox.love_user
+        where email = #{email,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR};
     </select>
 </mapper>

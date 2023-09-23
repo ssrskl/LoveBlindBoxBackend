@@ -54,7 +54,12 @@
             <artifactId>sa-token-spring-boot3-starter</artifactId>
             <version>1.36.0</version>
         </dependency>
-
+        <!--HuTool工具类-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.21</version>
+        </dependency>
     </dependencies>
 
     <build>
