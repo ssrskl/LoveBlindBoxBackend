@@ -1,6 +1,7 @@
 package com.maoyan.loveblindbox.controller;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import com.maoyan.loveblindbox.entity.LoveUser;
 import com.maoyan.loveblindbox.entity.vo.LoginLoveUserVO;
@@ -42,5 +43,12 @@ public class UserController {
         BeanUtil.copyProperties(loginLoveUserVO, loginingLoveUser);
         SaTokenInfo saTokenInfo = loginService.LoveUserLogin(loginingLoveUser);
         return AjaxResult.success("登录成功", saTokenInfo);
+    }
+
+    @GetMapping(value = "/self")
+    public AjaxResult getCurrentUserInfo() {
+        long loginIdAsLong = StpUtil.getLoginIdAsLong();
+        LoveUser currentUser = userService.findLoveUserById(loginIdAsLong);
+        return AjaxResult.success("查询成功", currentUser);
     }
 }

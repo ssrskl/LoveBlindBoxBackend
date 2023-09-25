@@ -1,18 +1,16 @@
-package com.maoyan.loveblindbox.entity;
+package com.maoyan.loveblindbox.entity.dto;
 
+import com.maoyan.loveblindbox.entity.LoveUser;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.io.Serializable;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class LoveStick implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class LoveStickDTO {
     private Long stickId;
     private Long publisherId;
     private Long receiverId;
@@ -23,5 +21,6 @@ public class LoveStick implements Serializable {
     private String hobby;
     private String personality;
     private String introduction;
+    private LoveUser publisher;
+    private LoveUser receiver;
 }
-
