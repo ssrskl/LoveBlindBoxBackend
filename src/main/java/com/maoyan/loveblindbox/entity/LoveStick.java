@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 @Data
@@ -12,12 +13,13 @@ import java.io.Serializable;
 @AllArgsConstructor
 @ToString
 public class LoveStick implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     private Long stickId;
     private Long publisherId;
     private Long receiverId;
-    private Boolean publisherGender;
-    private String age;
+    private int gender;
+    private int age;
     private String qq;
     private String wechat;
     private String hobby;

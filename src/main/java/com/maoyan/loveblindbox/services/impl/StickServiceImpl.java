@@ -1,11 +1,13 @@
 package com.maoyan.loveblindbox.services.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.maoyan.loveblindbox.entity.LoveStick;
 import com.maoyan.loveblindbox.entity.LoveUser;
 import com.maoyan.loveblindbox.entity.dto.LoveStickDTO;
+import com.maoyan.loveblindbox.entity.vo.PublishLoveStickVO;
 import com.maoyan.loveblindbox.exception.CustomException;
 import com.maoyan.loveblindbox.mapper.StickMapper;
 import com.maoyan.loveblindbox.mapper.UserMapper;
@@ -26,13 +28,11 @@ public class StickServiceImpl implements StickService {
     private UserMapper userMapper;
 
     @Override
-    public int publishLoveStick(LoveStick loveStick) {
-        // 获取当前用户的ID
-        long loginIdAsLong = StpUtil.getLoginIdAsLong();
-        // 获取当前用户
-        LoveUser currentLoveUser = userMapper.selectLoveUserById(loginIdAsLong);
-        loveStick.setPublisherId(loginIdAsLong);
-        int i = stickMapper.insertStick(loveStick);
+    public int publishLoveStick(LoveStick newLoveStick) {
+        // 获取当前登录的用户ID
+        Long currentUserId = StpUtil.getLoginIdAsLong();
+        newLoveStick.setPublisherId(currentUserId);
+        int i = stickMapper.insertStick(newLoveStick);
         if (i <= 0) {
             throw new CustomException("发布小纸条失败", HttpStatus.ERROR);
         }
@@ -68,11 +68,18 @@ public class StickServiceImpl implements StickService {
     }
 
     @Override
-    public int receiveLoveStick(LoveStick loveStick) {
-        int i = stickMapper.updateLoveStick(loveStick);
+    public int receiveLoveStick(int gender) {
+        // 随机抽取一个指定性别的小纸条
+        LoveStick loveStick = stickMapper.randomSelectLoveStick(gender);
+        // 接收到的小纸条的ID
+        Long receiveLoveStickId = loveStick.getStickId();
+        // 获得当前登录用户的ID
+        Long currentUserId = StpUtil.getLoginIdAsLong();
+        loveStick.setReceiverId(currentUserId);
+        int i = stickMapper.insertStick(loveStick);
         if (i <= 0) {
             throw new CustomException("接收失败", HttpStatus.ERROR);
         }
-        return i;
+        return Math.toIntExact(receiveLoveStickId);
     }
 }

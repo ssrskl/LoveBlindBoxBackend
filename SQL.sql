@@ -25,8 +25,8 @@ create table love_stick
     stick_id     bigint(255) not null auto_increment comment '纸条ID',
     publisher_id bigint(255) not null comment '',
     receiver_id  bigint(255) default 0 comment '',
-    gender       bit(1) comment '',
-    age          varchar(10) comment '',
+    gender       int(2) comment '',
+    age          int(10) comment '',
     qq           varchar(255) comment '',
     wechat       varchar(255) comment '',
     hobby        varchar(255) comment '',
@@ -40,9 +40,15 @@ create table love_stick
 
 # 输入测试数据
 insert into love_user (user_id, username, password, email, status, avater)
-values (1, '猫颜', 'ar352878987', '1071352028@qq.com', 1, 'http');
+values (1, '猫颜', 'f180b420d0d522714e566b2befb08342', '1071352028@qq.com', 1, 'http');
 insert into love_user (user_id, username, password, email, status, avater)
-values (2, '达芬奇', 'ar352878987', 'oimaoyanio@gamil.com', 1, 'http');
+values (2, '达芬奇', 'f180b420d0d522714e566b2befb08342', 'oimaoyanio@gamil.com', 1, 'http');
+insert into love_user (user_id, username, password, email, status, avater)
+values (3, '猫颜2', 'f180b420d0d522714e566b2befb08342', '820244680@qq.com', 1, 'http');
 
 insert into love_stick (stick_id, publisher_id, receiver_id, gender, age, qq, wechat, hobby, personality, introduction)
 values (1, 1, 0, 1, 21, '1071352028', '17104344673', '爱好', 'ENFP', '个人介绍');
+insert into love_stick (stick_id, publisher_id, receiver_id, gender, age, qq, wechat, hobby, personality, introduction)
+values (2, 2, 1, 1, 21, '1071352028', '17104344673', '爱好', 'ENFP', '个人介绍');
+insert into love_stick (stick_id, publisher_id, receiver_id, gender, age, qq, wechat, hobby, personality, introduction)
+values (3, 2, 0, 1, 21, '1071352028', '17104344673', '爱好', 'ENFP', '个人介绍');

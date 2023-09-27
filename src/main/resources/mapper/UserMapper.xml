@@ -6,15 +6,8 @@
         <result column="username" property="username"/>
         <result column="password" property="password"/>
         <result column="email" property="email"/>
-        <result column="gender" property="gender"/>
         <result column="status" property="status"/>
-        <result column="age" property="age"/>
-        <result column="qq" property="qq"/>
-        <result column="wechat" property="wechat"/>
         <result column="avater" property="avater"/>
-        <result column="hobby" property="hobby"/>
-        <result column="personality" property="personality"/>
-        <result column="introduction" property="introduction"/>
     </resultMap>
     <insert id="insertLoveUser" parameterType="com.maoyan.loveblindbox.entity.LoveUser">
         insert into love_blindbox.love_user (username, password, email)
@@ -31,6 +24,7 @@
     <select id="selectLoveUserByEmailAndPassword" resultMap="LoveUserMap">
         select *
         from love_blindbox.love_user
-        where email = #{email,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR};
+        where email = #{email,jdbcType=VARCHAR}
+          and password = #{password,jdbcType=VARCHAR};
     </select>
 </mapper>

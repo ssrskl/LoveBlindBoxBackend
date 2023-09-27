@@ -14,8 +14,8 @@ public class LoveStickDTO {
     private Long stickId;
     private Long publisherId;
     private Long receiverId;
-    private Boolean publisherGender;
-    private String age;
+    private int gender;
+    private int age;
     private String qq;
     private String wechat;
     private String hobby;

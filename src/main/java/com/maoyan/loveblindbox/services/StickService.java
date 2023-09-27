@@ -2,6 +2,7 @@ package com.maoyan.loveblindbox.services;
 
 import com.maoyan.loveblindbox.entity.LoveStick;
 import com.maoyan.loveblindbox.entity.dto.LoveStickDTO;
+import com.maoyan.loveblindbox.entity.vo.PublishLoveStickVO;
 
 import java.util.List;
 
@@ -14,5 +15,5 @@ public interface StickService {
 
     List<LoveStickDTO> batchFindLoveStickDetailForCurrentUser(int pageNum, int pageSize, Long currentUserId); //查找当前用户所收到的纸条
 
-    int receiveLoveStick(LoveStick loveStick);
+    int receiveLoveStick(int gender);
 }

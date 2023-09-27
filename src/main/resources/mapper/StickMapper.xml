@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.maoyan.loveblindbox.mapper.StickMapper">
-
     <resultMap id="LoveStickMap" type="com.maoyan.loveblindbox.entity.LoveStick">
         <result column="stick_id" property="stickId"/>
         <result column="publisher_id" property="publisherId"/>
         <result column="receiver_id" property="receiverId"/>
-        <result column="publisher_gender" property="publisherGender"/>
+        <result column="gender" property="gender"/>
         <result column="age" property="age"/>
         <result column="qq" property="qq"/>
         <result column="wechat" property="wechat"/>
@@ -18,7 +17,7 @@
         <result column="stick_id" property="stickId"/>
         <result column="publisher_id" property="publisherId"/>
         <result column="receiver_id" property="receiverId"/>
-        <result column="publisher_gender" property="publisherGender"/>
+        <result column="gender" property="gender"/>
         <result column="age" property="age"/>
         <result column="qq" property="qq"/>
         <result column="wechat" property="wechat"/>
@@ -29,46 +28,39 @@
             <result column="user_id" property="userId"/>
             <result column="username" property="username"/>
             <result column="email" property="email"/>
-            <result column="gender" property="gender"/>
             <result column="status" property="status"/>
-            <result column="age" property="age"/>
-            <result column="qq" property="qq"/>
-            <result column="wechat" property="wechat"/>
             <result column="avater" property="avater"/>
-            <result column="hobby" property="hobby"/>
-            <result column="personality" property="personality"/>
-            <result column="introduction" property="introduction"/>
         </association>
         <association property="receiver" javaType="com.maoyan.loveblindbox.entity.LoveUser">
-            <result column="user_id" property="userId"/>
-            <result column="username" property="username"/>
-            <result column="email" property="email"/>
-            <result column="gender" property="gender"/>
-            <result column="status" property="status"/>
-            <result column="age" property="age"/>
-            <result column="qq" property="qq"/>
-            <result column="wechat" property="wechat"/>
-            <result column="avater" property="avater"/>
-            <result column="hobby" property="hobby"/>
-            <result column="personality" property="personality"/>
-            <result column="introduction" property="introduction"/>
+            <result column="r_user_id" property="userId"/>
+            <result column="r_username" property="username"/>
+            <result column="r_email" property="email"/>
+            <result column="r_status" property="status"/>
+            <result column="r_avater" property="avater"/>
         </association>
     </resultMap>
 
     <insert id="insertStick">
-        insert into love_stick (publisher_id)
-        values (#{loveStick.publisherId,jdbcType=BIGINT});
+        insert into love_stick (publisher_id, receiver_id, gender, age, qq, wechat, hobby, personality, introduction)
+        values (#{loveStick.publisherId,jdbcType=BIGINT}, #{loveStick.receiverId,jdbcType=BIGINT},
+                #{loveStick.gender,jdbcType=INTEGER},
+                #{loveStick.age,jdbcType=INTEGER}, #{loveStick.qq,jdbcType=VARCHAR},
+                #{loveStick.wechat,jdbcType=VARCHAR}, #{loveStick.hobby,jdbcType=VARCHAR},
+                #{loveStick.personality,jdbcType=VARCHAR},
+                #{loveStick.introduction,jdbcType=VARCHAR});
     </insert>
 
     <select id="selectLoveStickById" resultMap="LoveStickMap">
-        select * from love_stick where stick_id = #{stickId,jdbcType=BIGINT}
+        select *
+        from love_stick
+        where stick_id = #{stickId,jdbcType=BIGINT};
     </select>
 
     <select id="selectLoveStickDetailById" resultMap="LoveStickDTOMap">
         select love_stick.stick_id,
                love_stick.publisher_id,
                love_stick.receiver_id,
-               love_stick.publisher_gender,
+               love_stick.gender,
                love_stick.age,
                love_stick.qq,
                love_stick.wechat,
@@ -78,40 +70,24 @@
                publisher.user_id,
                publisher.username,
                publisher.email,
-               publisher.gender,
                publisher.status,
-               publisher.age,
-               publisher.qq,
-               publisher.wechat,
                publisher.avater,
-               publisher.hobby,
-               publisher.personality,
-               publisher.introduction,
-               receiver.user_id,
-               receiver.username,
-               receiver.email,
-               receiver.gender,
-               receiver.status,
-               receiver.age,
-               receiver.qq,
-               receiver.wechat,
-               receiver.avater,
-               receiver.hobby,
-               receiver.personality,
-               receiver.introduction
+               receiver.user_id  as r_user_id,
+               receiver.username as r_username,
+               receiver.email    as r_email,
+               receiver.status   as r_status,
+               receiver.avater   as r_avater
         from love_stick
-                 inner join
-             love_blindbox.love_user publisher on love_stick.publisher_id = publisher.user_id
-                 inner join
-             love_user receiver on love_stick.receiver_id = receiver.user_id
-        where stick_id = #{stickId,jdbcType=BIGINT};
+                 left outer join love_user publisher on publisher.user_id = love_stick.publisher_id
+                 left outer join love_user receiver on receiver.user_id = love_stick.receiver_id
+        where stick_id = #{stickId,jdbcType=BIGINT}
     </select>
 
     <select id="BatchSelectLoveStickDetailByReceiverId" resultMap="LoveStickDTOMap">
         select love_stick.stick_id,
                love_stick.publisher_id,
                love_stick.receiver_id,
-               love_stick.publisher_gender,
+               love_stick.gender,
                love_stick.age,
                love_stick.qq,
                love_stick.wechat,
@@ -121,45 +97,38 @@
                publisher.user_id,
                publisher.username,
                publisher.email,
-               publisher.gender,
                publisher.status,
-               publisher.age,
-               publisher.qq,
-               publisher.wechat,
                publisher.avater,
-               publisher.hobby,
-               publisher.personality,
-               publisher.introduction,
-               receiver.user_id,
-               receiver.username,
-               receiver.email,
-               receiver.gender,
-               receiver.status,
-               receiver.age,
-               receiver.qq,
-               receiver.wechat,
-               receiver.avater,
-               receiver.hobby,
-               receiver.personality,
-               receiver.introduction
+               receiver.user_id  as r_user_id,
+               receiver.username as r_username,
+               receiver.email    as r_email,
+               receiver.status   as r_status,
+               receiver.avater   as r_avater
         from love_stick
-                 inner join
+                 left outer join
              love_blindbox.love_user publisher on love_stick.publisher_id = publisher.user_id
-                 inner join
+                 left join
              love_user receiver on love_stick.receiver_id = receiver.user_id
         where receiver_id = #{receiverId,jdbcType=BIGINT}
     </select>
 
     <update id="updateLoveStick">
         update love_stick
-        set receiver_id = #{loveStick.receiverId,jdbcType=BIGINT};
+        set receiver_id = #{loveStick.receiverId,jdbcType=BIGINT}
+        where stick_id = #{loveStick.stickId,jdbcType=BIGINT}
     </update>
 
+    <!--随机抽取一个数据-->
     <select id="randomSelectLoveStick" resultMap="LoveStickMap">
-        select *
-        from love_stick
-        where stick_id >= (select floor(max(stick_id) * rand()) from love_stick)
-        order by stick_id
-        limit 1
+        SELECT *
+        FROM love_stick
+        <where>
+                stick_id >= (SELECT FLOOR(1 + RAND() * (SELECT MAX(stick_id) FROM love_stick)))
+            <if test="gender != null and gender != 2">
+                and gender = #{gender,jdbcType=INTEGER}
+            </if>
+        </where>
+        ORDER BY stick_id
+        LIMIT 1;
     </select>
 </mapper>

@@ -43,4 +43,16 @@ public class StickController {
         int i = stickService.publishLoveStick(newLoveStick);
         return AjaxResult.success("发布成功", i);
     }
+
+    /**
+     * 接收一个小纸条
+     *
+     * @param gender
+     * @return
+     */
+    @GetMapping(value = "/receive")
+    public AjaxResult receiverLoveStick(@RequestParam(defaultValue = "2") int gender) {
+        int receiveLoveStickId = stickService.receiveLoveStick(gender);
+        return AjaxResult.success("接收成功, 接收的小纸条ID为:", receiveLoveStickId);
+    }
 }

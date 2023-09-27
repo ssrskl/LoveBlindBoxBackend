@@ -19,5 +19,5 @@ public interface StickMapper {
 
     int updateLoveStick(@Param(value = "loveStick") LoveStick newloveStick);
 
-    LoveStick randomSelectLoveStick();
+    LoveStick randomSelectLoveStick(@Param(value = "gender") int gender);
 }
