@@ -22,9 +22,4 @@ public class TestController {
         return AjaxResult.success("查找成功", loveStickById);
     }
 
-    @GetMapping(value = "/stick/random")
-    public AjaxResult testRandomReceiveStick() {
-        LoveStick loveStick = stickMapper.randomSelectLoveStick(0);
-        return AjaxResult.success("查询成功", loveStick);
-    }
 }

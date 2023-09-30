@@ -17,7 +17,18 @@ public interface StickMapper {
 
     List<LoveStickDTO> BatchSelectLoveStickDetailByReceiverId(@Param(value = "receiverId") Long receiverId);
 
+    List<LoveStickDTO> BatchSelectLoveStickDetailByPublisherId(@Param(value = "publisherId") Long publisherId);
+
     int updateLoveStick(@Param(value = "loveStick") LoveStick newloveStick);
 
-    LoveStick randomSelectLoveStick(@Param(value = "gender") int gender);
+    LoveStick randomSelectLoveStick(@Param(value = "gender") int gender, @Param(value = "receiverId") Long receiverId);
+
+    int deleteLoveStick(@Param(value = "stickId") Long stickId);
+
+    /**
+     * --------------------------数量统计----------------------------------
+     */
+    int countLoveStickByReceiverId(@Param(value = "receiverId") Long receiverId);
+
+    int countLoveStickByPublisherId(@Param(value = "publisherId") Long publisherId);
 }

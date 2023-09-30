@@ -51,4 +51,10 @@ public class UserController {
         LoveUser currentUser = userService.findLoveUserById(loginIdAsLong);
         return AjaxResult.success("查询成功", currentUser);
     }
+
+    @GetMapping(value = "/logout")
+    public AjaxResult logoutLoveUser() {
+        StpUtil.logout();
+        return AjaxResult.success("登出成功");
+    }
 }

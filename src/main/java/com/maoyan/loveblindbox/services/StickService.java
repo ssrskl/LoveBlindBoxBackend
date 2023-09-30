@@ -15,5 +15,14 @@ public interface StickService {
 
     List<LoveStickDTO> batchFindLoveStickDetailForCurrentUser(int pageNum, int pageSize, Long currentUserId); //查找当前用户所收到的纸条
 
+    List<LoveStickDTO> batchFindPublishedLoveStickDetailForCurrentUser(int pageNum, int pageSize, Long currentUserId); //查找当前用户所发布的纸条
+
     int receiveLoveStick(int gender);
+
+    int updateMyselffLoveStick(LoveStick newloveStick);
+
+    int deleteMyselfLoveStick(Long stickId);
+
+    int countLoveStickForCurrentUserPublished();
+    int countLoveStickForCurrentUserReceived();
 }

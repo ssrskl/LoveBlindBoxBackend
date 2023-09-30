@@ -40,7 +40,8 @@
         </association>
     </resultMap>
 
-    <insert id="insertStick">
+    <insert id="insertStick" parameterType="com.maoyan.loveblindbox.entity.LoveStick" useGeneratedKeys="true"
+            keyProperty="loveStick.stickId">
         insert into love_stick (publisher_id, receiver_id, gender, age, qq, wechat, hobby, personality, introduction)
         values (#{loveStick.publisherId,jdbcType=BIGINT}, #{loveStick.receiverId,jdbcType=BIGINT},
                 #{loveStick.gender,jdbcType=INTEGER},
@@ -114,7 +115,15 @@
 
     <update id="updateLoveStick">
         update love_stick
-        set receiver_id = #{loveStick.receiverId,jdbcType=BIGINT}
+        set publisher_id = #{loveStick.publisherId,jdbcType=BIGINT},
+            receiver_id  = #{loveStick.receiverId,jdbcType=BIGINT},
+            gender       = #{loveStick.gender,jdbcType=INTEGER},
+            age          = #{loveStick.age,jdbcType=INTEGER},
+            qq           = #{loveStick.qq,jdbcType=VARCHAR},
+            wechat       = #{loveStick.wechat,jdbcType=VARCHAR},
+            hobby        = #{loveStick.hobby,jdbcType=VARCHAR},
+            personality  = #{loveStick.personality,jdbcType=VARCHAR},
+            introduction = #{loveStick.introduction,jdbcType=VARCHAR}
         where stick_id = #{loveStick.stickId,jdbcType=BIGINT}
     </update>
 
@@ -127,8 +136,57 @@
             <if test="gender != null and gender != 2">
                 and gender = #{gender,jdbcType=INTEGER}
             </if>
+            and (receiver_id is null
+                or receiver_id = 0)
+            and publisher_id != #{receiverId,jdbcType=BIGINT}
         </where>
         ORDER BY stick_id
         LIMIT 1;
+    </select>
+
+    <delete id="deleteLoveStick">
+        delete
+        from love_stick
+        where stick_id = #{stickId,jdbcType=BIGINT}
+    </delete>
+
+    <select id="BatchSelectLoveStickDetailByPublisherId" resultMap="LoveStickDTOMap">
+        select love_stick.stick_id,
+        love_stick.publisher_id,
+        love_stick.receiver_id,
+        love_stick.gender,
+        love_stick.age,
+        love_stick.qq,
+        love_stick.wechat,
+        love_stick.hobby,
+        love_stick.personality,
+        love_stick.introduction,
+        publisher.user_id,
+        publisher.username,
+        publisher.email,
+        publisher.status,
+        publisher.avater,
+        receiver.user_id  as r_user_id,
+        receiver.username as r_username,
+        receiver.email    as r_email,
+        receiver.status   as r_status,
+        receiver.avater   as r_avater
+        from love_stick
+        left outer join
+        love_blindbox.love_user publisher on love_stick.publisher_id = publisher.user_id
+        left join
+        love_user receiver on love_stick.receiver_id = receiver.user_id
+        where publisher_id = #{publisherId,jdbcType=BIGINT}
+    </select>
+
+    <select id="countLoveStickByReceiverId" resultType="int">
+        select count(stick_id)
+        from love_stick
+        where receiver_id = #{receiverId,jdbcType=BIGINT};
+    </select>
+    <select id="countLoveStickByPublisherId" resultType="int">
+        select count(stick_id)
+        from love_stick
+        where publisher_id = #{publisherId,jdbcType=BIGINT};
     </select>
 </mapper>
