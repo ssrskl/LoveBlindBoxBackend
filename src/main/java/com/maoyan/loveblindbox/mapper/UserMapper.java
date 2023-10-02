@@ -11,4 +11,6 @@ public interface UserMapper {
     LoveUser selectLoveUserById(@Param(value = "userId") Long userId);
 
     LoveUser selectLoveUserByEmailAndPassword(@Param(value = "email") String email, @Param(value = "password") String password);
+
+    int updateLoveUser(@Param(value = "loveUser") LoveUser newLoveUser);
 }

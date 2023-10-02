@@ -68,6 +68,7 @@ public class StickController {
     }
 
     @GetMapping(value = "/delete")
+    @SaCheckLogin
     public AjaxResult delMyselfLoveStick(@RequestParam Long stickId) {
         int i = stickService.deleteMyselfLoveStick(stickId);
         return AjaxResult.success("删除成功", i);

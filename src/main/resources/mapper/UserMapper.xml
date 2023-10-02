@@ -27,4 +27,23 @@
         where email = #{email,jdbcType=VARCHAR}
           and password = #{password,jdbcType=VARCHAR};
     </select>
+
+    <update id="updateLoveUser">
+        update love_blindbox.love_user
+        <set>
+            <if test="loveUser.username != null">
+                username = #{loveUser.username,jdbcType=VARCHAR},
+            </if>
+            <if test="loveUser.password != null">
+                password = #{loveUser.password,jdbcType=VARCHAR},
+            </if>
+            <if test="loveUser.email != null">
+                email = #{loveUser.email,jdbcType=VARCHAR},
+            </if>
+            <if test="loveUser.avater != null">
+                avater = #{loveUser.avater,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where user_id = #{loveUser.userId,jdbcType=BIGINT};
+    </update>
 </mapper>

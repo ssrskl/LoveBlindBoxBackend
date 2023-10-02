@@ -21,4 +21,19 @@ public class UserServiceImpl implements UserService {
         }
         return loveUser;
     }
+
+    /**
+     * 更新当前用户
+     *
+     * @param newLoveUser
+     * @return
+     */
+    @Override
+    public int updateCurrentUser(LoveUser newLoveUser) {
+        int i = userMapper.updateLoveUser(newLoveUser);
+        if (i <= 0) {
+            throw new CustomException("更新用户信息失败", 500);
+        }
+        return i;
+    }
 }
