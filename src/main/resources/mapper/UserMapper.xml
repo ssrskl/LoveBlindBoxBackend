@@ -10,9 +10,9 @@
         <result column="avater" property="avater"/>
     </resultMap>
     <insert id="insertLoveUser" parameterType="com.maoyan.loveblindbox.entity.LoveUser">
-        insert into love_blindbox.love_user (username, password, email)
+        insert into love_blindbox.love_user (username, password, email, avater)
         values (#{loveUser.username,jdbcType=VARCHAR}, #{loveUser.password,jdbcType=VARCHAR},
-                #{loveUser.email,jdbcType=VARCHAR});
+                #{loveUser.email,jdbcType=VARCHAR}, #{loveUser.avater,jdbcType=VARCHAR});
     </insert>
 
     <select id="selectLoveUserById" resultMap="LoveUserMap">
@@ -31,16 +31,16 @@
     <update id="updateLoveUser">
         update love_blindbox.love_user
         <set>
-            <if test="loveUser.username != null">
+            <if test="loveUser.username != null and loveUser.username != ''">
                 username = #{loveUser.username,jdbcType=VARCHAR},
             </if>
-            <if test="loveUser.password != null">
+            <if test="loveUser.password != null and loveUser.password!=''">
                 password = #{loveUser.password,jdbcType=VARCHAR},
             </if>
-            <if test="loveUser.email != null">
+            <if test="loveUser.email != null and loveUser.email != ''">
                 email = #{loveUser.email,jdbcType=VARCHAR},
             </if>
-            <if test="loveUser.avater != null">
+            <if test="loveUser.avater != null and loveUser.avater != ''">
                 avater = #{loveUser.avater,jdbcType=VARCHAR},
             </if>
         </set>

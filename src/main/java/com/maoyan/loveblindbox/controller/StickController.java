@@ -85,4 +85,10 @@ public class StickController {
         int i = stickService.countLoveStickForCurrentUserPublished();
         return AjaxResult.success("查询成功", i);
     }
+
+    @GetMapping(value = "/count/gender")
+    public AjaxResult countLoveStickByGender(@RequestParam(value = "gender") int gender) {
+        int i = stickService.countLoveStickByGender(gender);
+        return AjaxResult.success("查询成功", i);
+    }
 }

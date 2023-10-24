@@ -1,5 +1,7 @@
 package com.maoyan.loveblindbox.services.impl;
 
+import cn.dev33.satoken.secure.SaSecureUtil;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.maoyan.loveblindbox.entity.LoveUser;
 import com.maoyan.loveblindbox.exception.CustomException;
@@ -30,6 +32,10 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public int updateCurrentUser(LoveUser newLoveUser) {
+        long loginIdAsLong = StpUtil.getLoginIdAsLong(); // 获得当前登录用户的id
+        String md5Password = SaSecureUtil.md5(newLoveUser.getPassword()); // 对密码进行加密
+        newLoveUser.setPassword(md5Password);
+        newLoveUser.setUserId(loginIdAsLong);
         int i = userMapper.updateLoveUser(newLoveUser);
         if (i <= 0) {
             throw new CustomException("更新用户信息失败", 500);

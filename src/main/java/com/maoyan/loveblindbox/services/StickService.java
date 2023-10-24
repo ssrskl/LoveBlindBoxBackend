@@ -24,5 +24,8 @@ public interface StickService {
     int deleteMyselfLoveStick(Long stickId);
 
     int countLoveStickForCurrentUserPublished();
+
     int countLoveStickForCurrentUserReceived();
+
+    int countLoveStickByGender(int gender); // 查询指定性别的小纸条数量
 }

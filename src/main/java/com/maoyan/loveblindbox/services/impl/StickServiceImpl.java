@@ -13,6 +13,7 @@ import com.maoyan.loveblindbox.mapper.StickMapper;
 import com.maoyan.loveblindbox.mapper.UserMapper;
 import com.maoyan.loveblindbox.services.StickService;
 import com.maoyan.loveblindbox.utils.HttpStatus;
+import org.apache.ibatis.javassist.expr.NewArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ public class StickServiceImpl implements StickService {
         // 获取当前登录的用户ID
         Long currentUserId = StpUtil.getLoginIdAsLong();
         newLoveStick.setPublisherId(currentUserId);
+        newLoveStick.setReceiverId(0L);
         int i = stickMapper.insertStick(newLoveStick);
         if (i <= 0) {
             throw new CustomException("发布小纸条失败", HttpStatus.ERROR);
@@ -177,6 +179,21 @@ public class StickServiceImpl implements StickService {
     public int countLoveStickForCurrentUserReceived() {
         long loginIdAsLong = StpUtil.getLoginIdAsLong();
         int i = stickMapper.countLoveStickByReceiverId(loginIdAsLong);
+        if (i < 0) {
+            throw new CustomException("统计失败", HttpStatus.ERROR);
+        }
+        return i;
+    }
+
+    /**
+     * 查询指定性别的小纸条数量
+     *
+     * @param gender
+     * @return
+     */
+    @Override
+    public int countLoveStickByGender(int gender) {
+        int i = stickMapper.countEmptyLoveStickByGender(gender);
         if (i < 0) {
             throw new CustomException("统计失败", HttpStatus.ERROR);
         }

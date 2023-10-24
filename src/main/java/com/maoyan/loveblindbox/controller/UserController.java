@@ -12,7 +12,9 @@ import com.maoyan.loveblindbox.services.LoginService;
 import com.maoyan.loveblindbox.services.RegisterService;
 import com.maoyan.loveblindbox.services.UserService;
 import com.maoyan.loveblindbox.utils.AjaxResult;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -41,7 +43,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/register")
-    public AjaxResult registerLoveUser(@RequestBody RegisterLoveUserVO registerLoveUserVO) {
+    public AjaxResult registerLoveUser(@Valid @RequestBody RegisterLoveUserVO registerLoveUserVO) {
         LoveUser newLoveUser = new LoveUser();
         BeanUtil.copyProperties(registerLoveUserVO, newLoveUser);
         int i = registerService.LoveUserRegister(newLoveUser);

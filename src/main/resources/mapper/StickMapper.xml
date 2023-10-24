@@ -152,30 +152,30 @@
 
     <select id="BatchSelectLoveStickDetailByPublisherId" resultMap="LoveStickDTOMap">
         select love_stick.stick_id,
-        love_stick.publisher_id,
-        love_stick.receiver_id,
-        love_stick.gender,
-        love_stick.age,
-        love_stick.qq,
-        love_stick.wechat,
-        love_stick.hobby,
-        love_stick.personality,
-        love_stick.introduction,
-        publisher.user_id,
-        publisher.username,
-        publisher.email,
-        publisher.status,
-        publisher.avater,
-        receiver.user_id  as r_user_id,
-        receiver.username as r_username,
-        receiver.email    as r_email,
-        receiver.status   as r_status,
-        receiver.avater   as r_avater
+               love_stick.publisher_id,
+               love_stick.receiver_id,
+               love_stick.gender,
+               love_stick.age,
+               love_stick.qq,
+               love_stick.wechat,
+               love_stick.hobby,
+               love_stick.personality,
+               love_stick.introduction,
+               publisher.user_id,
+               publisher.username,
+               publisher.email,
+               publisher.status,
+               publisher.avater,
+               receiver.user_id  as r_user_id,
+               receiver.username as r_username,
+               receiver.email    as r_email,
+               receiver.status   as r_status,
+               receiver.avater   as r_avater
         from love_stick
-        left outer join
-        love_blindbox.love_user publisher on love_stick.publisher_id = publisher.user_id
-        left join
-        love_user receiver on love_stick.receiver_id = receiver.user_id
+                 left outer join
+             love_blindbox.love_user publisher on love_stick.publisher_id = publisher.user_id
+                 left join
+             love_user receiver on love_stick.receiver_id = receiver.user_id
         where publisher_id = #{publisherId,jdbcType=BIGINT}
     </select>
 
@@ -188,5 +188,13 @@
         select count(stick_id)
         from love_stick
         where publisher_id = #{publisherId,jdbcType=BIGINT};
+    </select>
+
+    <select id="countEmptyLoveStickByGender" resultType="int">
+        select count(stick_id)
+        from love_stick
+        where gender = #{gender,jdbcType=INTEGER}
+          and receiver_id = 0;
+        ;
     </select>
 </mapper>

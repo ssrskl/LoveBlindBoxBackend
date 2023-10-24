@@ -31,4 +31,5 @@ public interface StickMapper {
     int countLoveStickByReceiverId(@Param(value = "receiverId") Long receiverId);
 
     int countLoveStickByPublisherId(@Param(value = "publisherId") Long publisherId);
+    int countEmptyLoveStickByGender(@Param(value = "gender") int gender);
 }
